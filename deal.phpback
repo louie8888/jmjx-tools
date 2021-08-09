@@ -1,0 +1,53 @@
+
+
+
+
+<?php
+
+$domainStr = $_REQUEST["domains"];
+echo $domainStr;
+
+$domain_arr = explode("\r\n", $domainStr);
+var_dump($domain_arr);
+#echo $domain_arr;
+
+$domainFileName = "domain.txt";
+$beforeDomainFileName = "beforeDomain.txt";
+
+
+$domainFile = fopen($domainFileName, "w") or die("Unable to open file!");
+
+$beforeDomainFile = fopen($beforeDomainFileName, "a+") or die("Unable to open file!");
+$beforeDomain_arr = [];
+
+if(file_exists($beforeDomainFile))
+{
+    $beforeDomain_arr = file($beforeDomainFile);
+    
+
+}
+
+
+
+foreach($domain_arr as $domain)
+{
+  fwrite($domainFile, "$domain \n");
+  if(in_array($domain,$beforeDomain_arr))
+  {
+      fwrite($beforeDomainFile, "$domain \n");
+   }
+
+}
+
+
+$output = shell_exec('ls -ll');
+$output2 = shell_exec('rm -f ./test.txt');
+#$output3 = shell_exec('php test.php');
+echo "<pre>$output</pre>";
+
+echo "<pre>$output2</pre>";
+#echo "<pre>$output3</pre>";
+
+?>
+
+
